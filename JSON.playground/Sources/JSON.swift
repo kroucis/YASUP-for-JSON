@@ -183,7 +183,7 @@ public extension NSDictionary
 {
     func getOrThrow<T>(key: String) throws -> T
     {
-        guard let val = self[key] as? T else
+        guard let val: T = self.get(key) else
         {
             throw JSON.JSONError.MissingData(key)
         }
@@ -193,95 +193,62 @@ public extension NSDictionary
 
     func getOrThrow(key: String) throws -> Int
     {
-        if let val = self[key] as? String,
-            let i = Int(val)
-        {
-            return i
-        }
-        else if let val = self[key] as? Int
-        {
-            return val
-        }
-        else
+        guard let val: Int = self.get(key) else
         {
             throw JSON.JSONError.MissingData(key)
         }
+
+        return val
+    }
+
+    func getOrThrow(key: String) throws -> Int64
+    {
+        guard let val: Int64 = self.get(key) else
+        {
+            throw JSON.JSONError.MissingData(key)
+        }
+
+        return val
     }
 
     func getOrThrow(key: String) throws -> Int32
     {
-        if let val = self[key] as? String,
-            let i = Int32(val)
-        {
-            return i
-        }
-        else if let val = self[key] as? Int
-        {
-            return Int32(val)
-        }
-        else
+        guard let val: Int32 = self.get(key) else
         {
             throw JSON.JSONError.MissingData(key)
         }
+
+        return val
     }
 
     func getOrThrow(key: String) throws -> Int16
     {
-        if let val = self[key] as? String,
-            let i = Int16(val)
-        {
-            return i
-        }
-        else if let val = self[key] as? Int
-        {
-            return Int16(val)
-        }
-        else
+        guard let val: Int16 = self.get(key) else
         {
             throw JSON.JSONError.MissingData(key)
         }
+
+        return val
     }
 
     func getOrThrow(key: String) throws -> Float
     {
-        if let val = self[key] as? String,
-            let f = Float(val)
-        {
-            return f
-        }
-        else if let val = self[key] as? Float
-        {
-            return val
-        }
-        else if let val = self[key] as? Int
-        {
-            return Float(val)
-        }
-        else
+        guard let val: Float = self.get(key) else
         {
             throw JSON.JSONError.MissingData(key)
         }
+
+        return val
     }
 
     func getOrThrow(key: String) throws -> Double
     {
-        if let val = self[key] as? String,
-            let d = Double(val)
-        {
-            return d
-        }
-        else if let val = self[key] as? Double
-        {
-            return val
-        }
-        else if let val = self[key] as? Int
-        {
-            return Double(val)
-        }
-        else
+        guard let val: Double = self.get(key) else
         {
             throw JSON.JSONError.MissingData(key)
         }
+
+        return val
     }
 
     func get<T>(key: String) -> T?
@@ -289,44 +256,112 @@ public extension NSDictionary
         return self[key] as? T
     }
 
-    func get(key: String) -> Int32?
+    func get(key: String) -> Int?
     {
-        guard let val = self[key] as? String else
+        if let val = self[key] as? Int
         {
-            return nil
+            return val
+        }
+        else if let val = self[key] as? NSNumber
+        {
+            return val.integerValue
+        }
+        else if let str = self[key] as? String
+        {
+            return Int(str)
         }
 
-        return Int32(val)
+        return nil
+    }
+
+    func get(key: String) -> Int64?
+    {
+        if let val = self[key] as? Int64
+        {
+            return val
+        }
+        else if let val = self[key] as? NSNumber
+        {
+            return val.longLongValue
+        }
+        else if let str = self[key] as? String
+        {
+            return Int64(str)
+        }
+
+        return nil
+    }
+
+    func get(key: String) -> Int32?
+    {
+        if let val = self[key] as? Int32
+        {
+            return val
+        }
+        else if let val = self[key] as? NSNumber
+        {
+            return val.intValue
+        }
+        else if let str = self[key] as? String
+        {
+            return Int32(str)
+        }
+
+        return nil
     }
 
     func get(key: String) -> Int16?
     {
-        guard let val = self[key] as? String else
+        if let val = self[key] as? Int16
         {
-            return nil
+            return val
+        }
+        else if let val = self[key] as? NSNumber
+        {
+            return Int16(val.intValue)
+        }
+        else if let str = self[key] as? String
+        {
+            return Int16(str)
         }
 
-        return Int16(val)
+        return nil
     }
 
     func get(key: String) -> Float?
     {
-        guard let val = self[key] as? String else
+        if let val = self[key] as? Float
         {
-            return nil
+            return val
+        }
+        else if let val = self[key] as? NSNumber
+        {
+            return val.floatValue
+        }
+        else if let str = self[key] as? String
+        {
+            return Float(str)
         }
 
-        return Float(val)
+        return nil
     }
 
     func get(key: String) -> Double?
     {
-        guard let val = self[key] as? String else
+        if let val = self[key] as? Double
         {
-            return nil
+            return val
         }
-        
-        return Double(val)
+        else if let val = self[key] as? NSNumber
+        {
+            return val.doubleValue
+        }
+        else if let str = self[key] as? String
+        {
+            return Double(str)
+        }
+
+        return nil
     }
     
 }

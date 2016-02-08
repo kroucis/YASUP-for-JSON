@@ -50,3 +50,12 @@ Test(dictionary: JSON.jsonObjectFromJSON(string: "{\"s\": \"YES!\"}") as! NSDict
 
 JSON.stringWithJSONObject(t1?.toDictionary())
 JSON.stringWithJSONObject(nil)
+
+let j2 = "{\"test\":33.2}"
+if let o2 = JSON.dictionaryFromJSON(string: j2)
+{
+    if let test: Double = o2.get("test")
+    {
+        test
+    }
+}
